@@ -32,16 +32,16 @@ class imageClient:
     print(f"Replaced '{file_name}' at '{file_location}/{file_name}'\n")
   
   # Replace a file's date and time taken based off a datetime.datetime object
-  def replace_given_time(self, img, new_time):
-    old_time = img.get("datetime_original")
-    img.set("datetime_original", new_time)
+  def replace_given_time(self, file_name, img, new_time):
+    old_time = datetime.strptime(img.get("datetime_original"), '%Y:%m:%d %H:%M:%S') 
+    img.set("datetime_original", new_time.strftime(DATETIME_STR_FORMAT))
     
-    print(f"Changed time of '{file_name}'\nPrevious time: {old_time}\n New time: {new_time}\n")
+    print(f"Changed time of '{file_name}'\nPrevious time: {old_time}\nNew time: {new_time}\n")
     return img
   
   # Replace a file's date and time taken based off numerical inputs
   def replace_input_time(self, file_name, img):
-    old_time = img.get("datetime_original")
+    old_time = datetime.strptime(img.get("datetime_original"), '%Y:%m:%d %H:%M:%S') 
 
     yr = self.get_int_input("Enter the year: ", 0, 3000, int)
     mth = self.get_int_input("Enter the month: ", 1, 12, int)
@@ -50,14 +50,15 @@ class imageClient:
     mins = self.get_int_input("Enter the minute: ", 0, 60, int)
     sec = self.get_int_input("Enter the second: ", 0, 60, int)
     new_time = datetime(year=yr, month=mth, day=dy, hour=hr, minute=mins, second=sec)
-    img.set("datetime_original", new_time)
+    img.set("datetime_original", new_time.strftime(DATETIME_STR_FORMAT))
 
-    print(f"Changed time of '{file_name}'\nPrevious time: {old_time}\n New time: {new_time}\n")
+    print(f"Changed time of '{file_name}'\nPrevious time: {old_time}\nNew time: {new_time}\n")
     return img
 
   # Open an image file and return the EXIF time data
   def get_image_time(self, file_name, img):
     time = img.get("datetime_original")
+    time = datetime.strptime(time, '%Y:%m:%d %H:%M:%S')
     print(f"{file_name}'s EXIF time: {time}\n")
 
   # Open an image file and return the EXIF data
