@@ -9,7 +9,6 @@
 <!-- PROJECT LOGO -->
 [<img src="assets/img/python-logo.png" align="right" width="150">](https://github.com/Kaweees/Photo.py)
 
-
 An implementation of a metadata extractor and manipulator for images that use the EXIF standard, written in Python 3.
 
 <!-- BUILT WITH -->
