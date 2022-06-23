@@ -2,7 +2,7 @@ from exif import Image, DATETIME_STR_FORMAT
 from datetime import date, datetime
 
 class imageClient:
-  def get_int_input(prompt, min_, max_, type_=int):
+  def get_int_input(prompt, min_, max_, type_ = int):
     while True:
       try:
         user_input = int(input(prompt))
@@ -15,7 +15,7 @@ class imageClient:
         print("Input type must be a valid integer")
     return user_input
   
-  # Open an image file and return as an exif.Image instance
+  # Open an image file and return as an exif.Image objecy
   def get_image(self, file_location, file_name):
     with open(f'{file_location}/{file_name}', "rb") as f:
       img = Image(f)
@@ -43,6 +43,20 @@ class imageClient:
   def replace_input_time(self, file_name, img):
     old_time = datetime.strptime(img.get("datetime_original"), '%Y:%m:%d %H:%M:%S') 
 
+    yr = self.get_int_input("Enter the year: ", 0, 3000, int)
+    mth = self.get_int_input("Enter the month: ", 1, 12, int)
+    dy = self.get_int_input("Enter the day: ", 1, 31, int)
+    hr = self.get_int_input("Enter the hour: ", 0, 24, int)
+    mins = self.get_int_input("Enter the minute: ", 0, 60, int)
+    sec = self.get_int_input("Enter the second: ", 0, 60, int)
+    new_time = datetime(year=yr, month=mth, day=dy, hour=hr, minute=mins, second=sec)
+    img.set("datetime_original", new_time.strftime(DATETIME_STR_FORMAT))
+
+    print(f"Changed time of '{file_name}'\nPrevious time: {old_time}\nNew time: {new_time}\n")
+    return img
+
+  def replace_input_date(self, file_name, img):
+    old_time = datetime.strptime(img.get("datetime_original"), '%Y:%m:%d %H:%M:%S')
     yr = self.get_int_input("Enter the year: ", 0, 3000, int)
     mth = self.get_int_input("Enter the month: ", 1, 12, int)
     dy = self.get_int_input("Enter the day: ", 1, 31, int)
